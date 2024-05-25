@@ -1,4 +1,4 @@
-package keys;
+
 
 public class KeyExpansion {
 
@@ -128,4 +128,8 @@ public class KeyExpansion {
             words[i][numWord] = words[i][numWord] ^ words[i][numWord - 4];
         }
     }
+
+    public int[][] getWords() {
+        return this.words;
+    } 
 }
