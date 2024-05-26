@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     private static final int BLOCK_SIZE = 16;
@@ -12,13 +13,27 @@ public class Main {
     private static int ultimaPosicao;
     private static int simpleTextValues;
     public static void main(String[] args) {
-        File inputFile = new File("input.txt"); // arquivo de entrada
+
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Para o programa funcionar coloque o arquivo que deseja ser cifrado na pasta do programa.\n" +
+                "O nome do arquivo deve conter a extensão dele junto. Ex: input.txt\n" +
+                "\nDigite o nome do arquivo: ");
+        String nomeArquivo = s.nextLine();
+
+        System.out.println("\nInforme o nome do arquivo de saida com a extensão dele: ");
+        String nomeArquivoSaida = s.nextLine();
+
+        System.out.println("\nDigite a chave de criptografia em formato decimal separado por vírgula");
+        String chave = s.nextLine();
+
+        File inputFile = new File(nomeArquivo); // arquivo de entrada
         if (!inputFile.exists()) {
             System.err.println("Arquivo de entrada não encontrado: " + inputFile.getAbsolutePath());
             return;
         }
 
-        File outputFile = new File("output.bin"); // arquivo de saída com padding aplicado
+        File outputFile = new File(nomeArquivoSaida); // arquivo de saída com padding aplicado
 
         try (FileInputStream fis = new FileInputStream(inputFile);
              FileOutputStream fos = new FileOutputStream(outputFile)) {
@@ -54,7 +69,7 @@ public class Main {
         System.out.println("teste: " + simpleText);
         howManyReps();
 
-        KeyExpansion key = new KeyExpansion("65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80");
+        KeyExpansion key = new KeyExpansion(chave);
 
         for (int i = 0; i <= simpleTextValues / 16; i++) {
             String bloco = breakBlocksBy16();
@@ -62,7 +77,7 @@ public class Main {
             convertToCharacter(cypher);
         }
 
-        // Limpar o arquivo output.bin e inserir o conteúdo de finaltext
+        // Limpar o arquivo output e inserir o conteúdo de finaltext
         try (FileWriter fw = new FileWriter(outputFile, false)) {
             fw.write(finalText);
         } catch (IOException e) {
