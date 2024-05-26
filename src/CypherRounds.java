@@ -85,10 +85,16 @@ public class CypherRounds {
         System.out.println("0x" + Integer.toHexString(words[2][0]) + "   0x" + Integer.toHexString(words[2][1]) + "   0x" + Integer.toHexString(words[2][2]) + "   0x" + Integer.toHexString(words[2][3])); // Apenas para teste, remover depois
         System.out.println("0x" + Integer.toHexString(words[3][0]) + "   0x" + Integer.toHexString(words[3][1]) + "   0x" + Integer.toHexString(words[3][2]) + "   0x" + Integer.toHexString(words[3][3])); // Apenas para teste, remover depois
         xor(roundKey);
+        for (int i = 1; i < 10; i++) {
+            System.out.println("****************************************" + "Rodada: " + i + "****************************************");
+            subBytes();
+            shiftRows();
+            mixColumns();
+            addRoundKey(roundKey, i*4);
+        }
         subBytes();
         shiftRows();
-        mixColumns();
-        addRoundKey(roundKey);
+        addRoundKey(roundKey, 40);
     }
 
     private void xor(int[][] roundKey) {
@@ -157,7 +163,6 @@ public class CypherRounds {
         words = temp;
 
         System.out.println("**** |CypherRounds| Stage4 |CypherRounds| ****");
-        System.out.println("R1 = " + mostValuableBitL(words[0][0]) + "termo = " + MIX_COLUMNS_MATRIX[0][0] );
         System.out.println("0x" + Integer.toHexString(words[0][0]) + "   0x" + Integer.toHexString(words[0][1]) + "   0x" + Integer.toHexString(words[0][2]) + "   0x" + Integer.toHexString(words[0][3])); // Apenas para teste, remover depois
         System.out.println("0x" + Integer.toHexString(words[1][0]) + "   0x" + Integer.toHexString(words[1][1]) + "   0x" + Integer.toHexString(words[1][2]) + "   0x" + Integer.toHexString(words[1][3])); // Apenas para teste, remover depois
         System.out.println("0x" + Integer.toHexString(words[2][0]) + "   0x" + Integer.toHexString(words[2][1]) + "   0x" + Integer.toHexString(words[2][2]) + "   0x" + Integer.toHexString(words[2][3])); // Apenas para teste, remover depois
@@ -191,11 +196,12 @@ public class CypherRounds {
         return Integer.parseInt(tableE[row][col], 16);
     }
 
-    public static void addRoundKey(int[][] roundKey) {
+    public static void addRoundKey(int[][] roundKey, int rodada) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                words[j][i] ^= roundKey[j][i];
+                words[j][i] ^= roundKey[j][rodada];
             }
+            rodada++;
         }
 
         System.out.println("**** |CypherRounds| Stage5 |CypherRounds| ****");
