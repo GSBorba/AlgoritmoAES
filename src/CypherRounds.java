@@ -210,4 +210,8 @@ public class CypherRounds {
         System.out.println("0x" + Integer.toHexString(words[2][0]) + "   0x" + Integer.toHexString(words[2][1]) + "   0x" + Integer.toHexString(words[2][2]) + "   0x" + Integer.toHexString(words[2][3])); // Apenas para teste, remover depois
         System.out.println("0x" + Integer.toHexString(words[3][0]) + "   0x" + Integer.toHexString(words[3][1]) + "   0x" + Integer.toHexString(words[3][2]) + "   0x" + Integer.toHexString(words[3][3])); // Apenas para teste, remover depois
     }
+
+    public static int[][] getWords() {
+        return words;
+    }
 }
